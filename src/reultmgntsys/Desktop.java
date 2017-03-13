@@ -3,26 +3,33 @@ package reultmgntsys;
 
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.plaf.DesktopPaneUI;
+
 
 
 
 public class Desktop extends JFrame{
-    JDesktopPane jdesktop;
+    JDesktopPane jdesktop = new JDesktopPane();
+
     JMenuBar menuBar;
-    JMenu file, student,result,faculty;
-    JMenuItem exit,newStudent, findStudent, newGrade;
+    JMenu file, student,result,faculty, subject;
+    JMenuItem exit,newStudent, findStudent, newGrade, newSubject, addMark, addBatch;
     public Desktop(){
+        //init nimbus look n feel
+        try{
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        }catch(Exception e){
+                  e.printStackTrace();
+        }
         createMenuBar();
         
     }
     
     public void createMenuBar(){
-        setTitle("Result Management System");        
-         
+        setTitle("Result Management System");       
         
-        jdesktop = new JDesktopPane();
-        add(jdesktop);
+//        
+//        add(jdesktop);
+        
         // Creates a menubar for a JFrame
         menuBar = new JMenuBar();
          
@@ -46,47 +53,115 @@ public class Desktop extends JFrame{
         exit = new JMenuItem("Exit");
         
         newGrade = new JMenuItem("Add Class");
+        newSubject = new JMenuItem("Add Subject");
+        addMark = new JMenuItem("Add Mark");
+        addBatch = new JMenuItem("Create Batch");
         
         
         //adding item to student menu
         student.add(newStudent);
+        
         student.add(findStudent);
+        student.add(addMark);
         
         /**
          * Add every menu item for
          * faculty
          * */
+        faculty.add(addBatch);
         faculty.add(newGrade);
+        faculty.add(newSubject);
         
         
         file.add(exit);
+        /**
+         * link to add create Batch
+         */
+        addBatch.addActionListener(new ActionListener(){
+            @Override
+           public void actionPerformed(ActionEvent ae){
+               Batch batch = new Batch();
+               jdesktop.add(batch);
+               add(jdesktop);               
+           } 
+        });
         
+        /**
+         * link to add new student
+         */
+        newSubject.addActionListener(new ActionListener(){
+            @Override
+           public void actionPerformed(ActionEvent ae){
+               Subject s = new Subject();
+               jdesktop.add(s);
+               add(jdesktop);               
+           } 
+        });
+        
+        /**
+         * Add Mark
+         */
+         addMark.addActionListener(new ActionListener(){
+            @Override
+           public void actionPerformed(ActionEvent ae){
+               Mark m = new Mark();
+               jdesktop.add(m);
+               add(jdesktop);               
+           } 
+        });
+        
+         /**
+          * add new Grade
+          */
         newGrade.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent ae){
                 Grade g = new Grade();
-                g.display();
+                jdesktop.add(g);
+                add(jdesktop);
             }
             
         });
        
+        /**
+         * Add new Student
+         */
         newStudent.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae){
-                Student student =new Student();
-                jdesktop.add(student);   
+               Student std = new Student();
+               jdesktop.add(std);
+               add(jdesktop);
+                
             }
   
     });
     
     
     }
+    public void internal(){
+        JInternalFrame jif = new JInternalFrame();
+        
+        JPanel p = new JPanel();
+        p.add(new JLabel("test"));
+        jif.add(p);
+        jdesktop.add(jif);
+        add(jdesktop);
+        setContentPane(jdesktop);
+        jif.setSize(600, 600);
+        jif.setVisible(true);
+        try{
+            jif.setMaximum(true);
+        }catch(Exception ex){
+            System.out.println(ex);
+        }
+        
+    }
     public void display(){
-        Desktop d = new Desktop();
-     
+        Desktop d = new Desktop();     
+        //d.internal();
         d.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-        d.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      
+        d.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);      
         d.setVisible(true);
     }
     

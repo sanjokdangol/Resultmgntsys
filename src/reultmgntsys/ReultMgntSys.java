@@ -5,17 +5,31 @@
  */
 package reultmgntsys;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
 /**
  *
  * @author sanjok
  */
 public class ReultMgntSys {
-
+/**
+     * define form elements
+     */
+    JLabel jlb_firstName, jlb_lastName, jlb_address, jlb_phone, jlb_roll;
+    JTextField jtf_id, jtf_firstName, jtf_lastName, jtf_address, jtf_phone, jtf_roll;
+    JButton addbtn, updatebtn, deletebtn;
+    JPanel panel, panelTbl, mainpanel;
+    JFrame frame;
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        Desktop desktop = new Desktop();
+        desktop.display();
     }
     
 }
