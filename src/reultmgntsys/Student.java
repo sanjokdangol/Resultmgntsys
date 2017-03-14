@@ -14,7 +14,7 @@ public class Student extends JInternalFrame{
      */
     JLabel jlb_firstName, jlb_lastName, jlb_address, jlb_phone, jlb_roll;
     JTextField jtf_id, jtf_firstName, jtf_lastName, jtf_address, jtf_phone, jtf_roll;
-    JButton addbtn, updatebtn, deletebtn;
+    JButton addbtn, updatebtn, deletebtn, addMarkbtn, clearbtn;
     JPanel panel, panelRt, mainPanel;
 
     
@@ -75,6 +75,8 @@ public class Student extends JInternalFrame{
         addbtn.addActionListener(add);
         updatebtn.addActionListener(update);
         deletebtn.addActionListener(delete);
+        addMarkbtn.addActionListener(addMark);
+        clearbtn.addActionListener(clear);
         
         
         add(mainPanel);
@@ -105,6 +107,8 @@ public class Student extends JInternalFrame{
         addbtn = new JButton("submit");
         updatebtn = new JButton("Update");
         deletebtn = new JButton("Delete");
+        addMarkbtn = new JButton("Add Marks");
+        clearbtn = new JButton("Clear");
         
         GridBagConstraints c = new GridBagConstraints();
         c.insets = new Insets(3,3,3,3);
@@ -168,6 +172,14 @@ public class Student extends JInternalFrame{
         c.gridx = 3;
         c.gridy = 6;
         panel.add(deletebtn, c);
+        
+        c.gridx = 3;
+        c.gridy = 7;
+        panel.add(addMarkbtn, c);
+        
+        c.gridx = 3;
+        c.gridy = 8;
+        panel.add(clearbtn, c);
 
        
     }
@@ -177,7 +189,16 @@ public class Student extends JInternalFrame{
         setMaximizable(true); 
         setResizable(true); 
         setTitle("Create New Student"); 
+        setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+        setOpaque(true);
+        setPreferredSize(new Dimension(780, 200));
+        setIconifiable(true);
+        setMaximizable(true);
+
         setVisible(true);
+        try {
+            setSelected(true);
+        } catch (java.beans.PropertyVetoException e) {}
         
   
         try{
@@ -201,20 +222,14 @@ public class Student extends JInternalFrame{
                 int col = table.getSelectedColumn();
 
                 id = model.getValueAt(row, 0).toString();
-                firstname = model.getValueAt(row, 1).toString();
-                lastname = model.getValueAt(row, 2).toString();
-                address = model.getValueAt(row, 3).toString();
-                phone = model.getValueAt(row, 4).toString();
-                roll = model.getValueAt(row,5).toString();
-
-
-                System.out.println(id);
+                
                 jtf_id.setText(id);
-                jtf_firstName.setText(firstname);
-                jtf_lastName.setText(lastname);
-                jtf_address.setText(address);
-                jtf_phone.setText(phone);
-                jtf_roll.setText(roll);
+                jtf_firstName.setText(model.getValueAt(row, 1).toString());
+                jtf_lastName.setText(model.getValueAt(row, 2).toString());
+                jtf_address.setText(model.getValueAt(row, 3).toString());
+                jtf_roll.setText(model.getValueAt(row,4).toString());
+                jtf_phone.setText(model.getValueAt(row, 5).toString());
+                
 
             }
 
@@ -253,6 +268,7 @@ public class Student extends JInternalFrame{
                 pmst.setString(1, jtf_firstName.getText());
                 pmst.setString(2, jtf_lastName.getText());
                 pmst.setString(3, jtf_address.getText());
+                System.out.println(jtf_phone.getText());
                 pmst.setInt(4, Integer.parseInt(jtf_phone.getText()));
                 pmst.setInt(5, Integer.parseInt(jtf_roll.getText()));
 
@@ -286,14 +302,15 @@ public class Student extends JInternalFrame{
                     Connect connect = new Connect();
                     Connection con = connect.getConnect();
 
-                    String sql = "UPDATE students "
-                            + "SET firstname=?, lastname=?, address=? "
-                            + "WHERE id=?";
+                    String sql = "UPDATE students SET firstname=?, lastname=?, address=?, phone=?, roll=? WHERE id=?";
                     pmst = con.prepareStatement(sql);
                     pmst.setString(1, jtf_firstName.getText());
                     pmst.setString(2, jtf_lastName.getText());
-                    pmst.setString(3, jtf_address.getText());
-                    pmst.setString(4, jtf_id.getText());
+                    pmst.setString(3, jtf_address.getText());                    
+                    pmst.setInt(4, Integer.parseInt(jtf_phone.getText()));
+                    pmst.setInt(5, Integer.parseInt(jtf_roll.getText()));
+                    pmst.setInt(6, Integer.parseInt(jtf_id.getText()));
+                    
                     int response = pmst.executeUpdate();
                     if (response > 0) {
                         //manupulate new data in jtable
@@ -301,10 +318,7 @@ public class Student extends JInternalFrame{
                         JOptionPane.showMessageDialog(null, "Successfully Updated, Success Alert!");
                     }
 
-                }catch(SQLException e){
-                    JOptionPane.showMessageDialog(null, "Enter number");
-
-                } catch (Exception e) {
+                }catch (Exception e) {
                     System.out.println(e);
                 }
 
@@ -326,6 +340,12 @@ public class Student extends JInternalFrame{
 
                     if (response > 0) {
                         getData();
+                        jtf_id.setText("");
+                        jtf_firstName.setText("");
+                        jtf_lastName.setText("");
+                        jtf_address.setText("");
+                        jtf_phone.setText("");
+                        jtf_roll.setText("");
                         JOptionPane.showMessageDialog(null, "Successfully Deleted,Success Alert");
                     }
 
@@ -346,8 +366,8 @@ public class Student extends JInternalFrame{
         model.addColumn("First Name");
         model.addColumn("Last name");
         model.addColumn("Address");
-        model.addColumn("Phone");
         model.addColumn("Roll");
+        model.addColumn("Phone");
 
         try {
             Connect con = new Connect();
@@ -362,8 +382,8 @@ public class Student extends JInternalFrame{
                     rs.getString(2),
                     rs.getString(3), 
                     rs.getString(4),
-                    rs.getString(5),
-                    rs.getString(6)
+                    rs.getString(6),
+                    rs.getString(7)
                     
                 });
 
@@ -372,6 +392,43 @@ public class Student extends JInternalFrame{
         } catch (Exception e) {
             System.out.println(e);
         }
+    }
+    
+    ActionListener clear = new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent ae){
+           
+            jtf_id.setText("");
+            jtf_firstName.setText("");
+            jtf_lastName.setText("");
+            jtf_address.setText("");
+            jtf_phone.setText("");
+            jtf_roll.setText("");
+        }
+    };
+    
+    ActionListener addMark = new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent ae){
+            Mark mark = new Mark();
+            
+            Desktop desk = new Desktop();
+            desk.jdesktop.add(mark);
+            
+            desk.add(desk.jdesktop);
+            
+            
+            
+        }
+    };
+    
+    public void clear(){
+        jtf_id.setText("");
+        jtf_firstName.setText("");
+        jtf_lastName.setText("");
+        jtf_address.setText("");
+        jtf_phone.setText("");
+        jtf_roll.setText("");
     }
 
 }

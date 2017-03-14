@@ -5,8 +5,6 @@ import java.awt.event.*;
 import javax.swing.*;
 
 
-
-
 public class Desktop extends JFrame{
     JDesktopPane jdesktop = new JDesktopPane();
 
@@ -21,7 +19,9 @@ public class Desktop extends JFrame{
                   e.printStackTrace();
         }
         createMenuBar();
-        
+
+        jdesktop.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
+
     }
     
     public void createMenuBar(){
@@ -81,6 +81,7 @@ public class Desktop extends JFrame{
             @Override
            public void actionPerformed(ActionEvent ae){
                Batch batch = new Batch();
+               batch.moveToFront();
                jdesktop.add(batch);
                add(jdesktop);               
            } 
@@ -93,6 +94,8 @@ public class Desktop extends JFrame{
             @Override
            public void actionPerformed(ActionEvent ae){
                Subject s = new Subject();
+               s.moveToFront();
+               
                jdesktop.add(s);
                add(jdesktop);               
            } 
@@ -105,6 +108,7 @@ public class Desktop extends JFrame{
             @Override
            public void actionPerformed(ActionEvent ae){
                Mark m = new Mark();
+               m.moveToFront();
                jdesktop.add(m);
                add(jdesktop);               
            } 
@@ -117,6 +121,7 @@ public class Desktop extends JFrame{
             @Override
             public void actionPerformed(ActionEvent ae){
                 Grade g = new Grade();
+                g.moveToFront();
                 jdesktop.add(g);
                 add(jdesktop);
             }
@@ -130,6 +135,7 @@ public class Desktop extends JFrame{
             @Override
             public void actionPerformed(ActionEvent ae){
                Student std = new Student();
+               std.moveToFront();
                jdesktop.add(std);
                add(jdesktop);
                 

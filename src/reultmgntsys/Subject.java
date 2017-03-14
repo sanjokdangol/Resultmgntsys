@@ -188,7 +188,17 @@ public class Subject extends JInternalFrame{
         setMaximizable(true); 
         setResizable(true); 
         setTitle("Create New Subject"); 
+        setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+        setOpaque(true);
+        setPreferredSize(new Dimension(780, 200));
+        setIconifiable(true);
+        setMaximizable(true);
+
         setVisible(true);
+        
+        try {
+            setSelected(true);
+        } catch (java.beans.PropertyVetoException e) {}
         
         try{
             setMaximum(true);

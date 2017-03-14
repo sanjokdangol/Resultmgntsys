@@ -92,7 +92,17 @@ public class Mark extends JInternalFrame {
         setMaximizable(true); 
         setResizable(true); 
         setTitle("Add Marks"); 
+        setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+        setOpaque(true);
+        setPreferredSize(new Dimension(780, 200));
+        setIconifiable(true);
+        setMaximizable(true);
+
         setVisible(true);
+        
+        try {
+            setSelected(true);
+        } catch (java.beans.PropertyVetoException e) {}
         
         try{
             setMaximum(true);

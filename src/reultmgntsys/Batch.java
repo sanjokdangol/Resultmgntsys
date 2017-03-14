@@ -155,8 +155,7 @@ public class Batch extends JInternalFrame{
         model.addColumn("Description");
         model.addColumn("Start Date");
         model.addColumn("End Date");
-        model.addColumn("Action");
-
+       
 
         try {
             Connect con = new Connect();
@@ -171,9 +170,10 @@ public class Batch extends JInternalFrame{
                     rs.getString(2),
                     rs.getString(3), 
                     rs.getString(4),
-                    rs.getString(5)                   
+                    rs.getString(5), 
                     
-                });
+                    
+                });                
 
             }
 
@@ -188,7 +188,17 @@ public class Batch extends JInternalFrame{
         setMaximizable(true); 
         setResizable(true); 
         setTitle("Create New Batch"); 
+        setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+        setOpaque(true);
+        setPreferredSize(new Dimension(780, 200));
+        setIconifiable(true);
+        setMaximizable(true);
+
         setVisible(true);
+        
+        try {
+            setSelected(true);
+        } catch (java.beans.PropertyVetoException e) {}
         
         try{
             setMaximum(true);
@@ -232,12 +242,7 @@ public class Batch extends JInternalFrame{
             
             }catch (Exception ex) {
                 System.out.println(ex);
-            } finally {
-                if (pmst != null) {
-                    connect.closeConnection();
-
-                }
-            }
+            } 
         }
     };
     
@@ -304,7 +309,7 @@ public class Batch extends JInternalFrame{
                 try {                    
 
                     String sql = "UPDATE batch "
-                            + "SET name=?, description=?, startDate=?, endDate=? "
+                            + "SET name=?, description=?, start_date=?, end_date=? "
                             + "WHERE id=?";
                     pmst = con.prepareStatement(sql);
                     pmst.setString(1, batchNamejtf.getText());
@@ -319,17 +324,9 @@ public class Batch extends JInternalFrame{
                         JOptionPane.showMessageDialog(null, "Successfully Updated, Success Alert!");
                     }
 
-                }catch(SQLException e){
-                    JOptionPane.showMessageDialog(null, "Enter number");
-
-                } catch (Exception e) {
-                    System.out.println(e);
-                } finally {
-                    if (pmst != null) {
-                        connect.closeConnection();
-
-                    }
-                }
+                }catch (Exception e) {
+                    JOptionPane.showMessageDialog(null,e);
+                } 
 
             }
         };
