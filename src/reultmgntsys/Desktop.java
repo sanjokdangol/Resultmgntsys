@@ -10,7 +10,7 @@ public class Desktop extends JFrame{
 
     JMenuBar menuBar;
     JMenu file, student,result,faculty, subject;
-    JMenuItem exit,newStudent, findStudent, newGrade, newSubject, addMark, addBatch;
+    JMenuItem exit,newStudent, findStudent, newGrade, newSubject, addBatch, showResult;
     public Desktop(){
         //init nimbus look n feel
         try{
@@ -32,6 +32,7 @@ public class Desktop extends JFrame{
         
         // Creates a menubar for a JFrame
         menuBar = new JMenuBar();
+      
          
         // Add the menubar to the frame
         setJMenuBar(menuBar);
@@ -54,15 +55,18 @@ public class Desktop extends JFrame{
         
         newGrade = new JMenuItem("Add Class");
         newSubject = new JMenuItem("Add Subject");
-        addMark = new JMenuItem("Add Mark");
+       
         addBatch = new JMenuItem("Create Batch");
         
+        showResult = new JMenuItem("View Result");
+        
+        result.add(showResult);
         
         //adding item to student menu
         student.add(newStudent);
         
         student.add(findStudent);
-        student.add(addMark);
+        
         
         /**
          * Add every menu item for
@@ -74,6 +78,16 @@ public class Desktop extends JFrame{
         
         
         file.add(exit);
+        
+        showResult.addActionListener(new ActionListener(){
+            @Override
+           public void actionPerformed(ActionEvent ae){
+               Result result = new Result();
+               result.moveToFront();
+               jdesktop.add(result);
+               add(jdesktop);               
+           } 
+        });
         /**
          * link to add create Batch
          */
@@ -101,18 +115,7 @@ public class Desktop extends JFrame{
            } 
         });
         
-        /**
-         * Add Mark
-         */
-         addMark.addActionListener(new ActionListener(){
-            @Override
-           public void actionPerformed(ActionEvent ae){
-               Mark m = new Mark();
-               m.moveToFront();
-               jdesktop.add(m);
-               add(jdesktop);               
-           } 
-        });
+        
         
          /**
           * add new Grade
@@ -145,24 +148,7 @@ public class Desktop extends JFrame{
     
     
     }
-    public void internal(){
-        JInternalFrame jif = new JInternalFrame();
-        
-        JPanel p = new JPanel();
-        p.add(new JLabel("test"));
-        jif.add(p);
-        jdesktop.add(jif);
-        add(jdesktop);
-        setContentPane(jdesktop);
-        jif.setSize(600, 600);
-        jif.setVisible(true);
-        try{
-            jif.setMaximum(true);
-        }catch(Exception ex){
-            System.out.println(ex);
-        }
-        
-    }
+    
     public void display(){
         Desktop d = new Desktop();     
         //d.internal();
