@@ -1,40 +1,31 @@
+package reultmgntsys;
 
-
-import java.awt.FlowLayout;
-import java.awt.LayoutManager;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
+import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
-//import javax.swing.JFrame;
-//import javax.swing.JLabel;
-//import javax.swing.JOptionPane;
-//import javax.swing.JPanel;
-//import javax.swing.JTextField;
-
 
 
 
 //class SignUpForm implements ActionListener{
-class SignUpForm {
+public class LoginForm {
 
     private JLabel usernameLbl, passwordLbl;
     private JTextField usernameTf, passwordTf;
-    private JButton testBtn;
+    private JButton submitBtn;
 
     private JFrame frame;
     private JPanel panel;
 
-    SignUpForm() {
-        usernameLbl = new JLabel();
-        usernameLbl.setText("Username");
+    LoginForm() {
+        usernameLbl = new JLabel("Username");        
 
         passwordLbl = new JLabel("Password");
 
         usernameTf = new JTextField(5);
         passwordTf = new JTextField(5);
 
-        testBtn = new JButton("Submit");
+        submitBtn = new JButton("Submit");
+        
 
         frame = new JFrame();
         panel = new JPanel();
@@ -45,26 +36,30 @@ class SignUpForm {
         panel.add(usernameTf);
         panel.add(passwordLbl);
         panel.add(passwordTf);
+        panel.add(submitBtn);
 
 //        testBtn.addActionListener(this);
-
-        ActionListener actionListenerObj = new ActionListener() {
-
+ 
+        ActionListener submit = new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
+                
                 final String username = usernameTf.getText();
                 final String password = passwordTf.getText();
 
                 if(username.equalsIgnoreCase("admin") &&
                     password.equalsIgnoreCase("admin")){
-                    JOptionPane.showMessageDialog(panel,"SUCCESS");
+                    
+                    Desktop desktop = new Desktop();
+                    desktop.display();
                 }else{
                     JOptionPane.showMessageDialog(panel,"ERROR");
                 }
 
             }
         };
-        testBtn.addActionListener(actionListenerObj);
-        panel.add(testBtn);
+        submitBtn.addActionListener(submit);
+        
     }
 
     public void display() {
@@ -82,30 +77,9 @@ class SignUpForm {
         frame.setVisible(true);
     }
 
-//    @Override
-//    public void actionPerformed(ActionEvent e) {
-//        final String username = usernameTf.getText();
-//        final String password = passwordTf.getText();
-//        System.out.println(username + " -> " + password);
-//    }
 }
 
-public class LoginForm{
 
-    public static void main(String[] args) {
-		try{
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        }catch(Exception e){
-                  e.printStackTrace();
-        }
-	
-	
-        SignUpForm form = new SignUpForm();
-        form.display();
-		
-		
-    }
-}
 
 
 

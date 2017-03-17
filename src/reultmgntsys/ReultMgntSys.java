@@ -28,8 +28,8 @@ public class ReultMgntSys {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Desktop desktop = new Desktop();
-        desktop.display();
+        new LoginForm().display();        
+        
     }
     
 }
