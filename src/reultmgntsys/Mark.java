@@ -134,18 +134,21 @@ public class Mark extends JFrame {
                 int fm = Integer.parseInt(rs.getString(3));
                 float per = (pm*100)/fm;
 
-                if (mark >= pm &&  per >= 90f) {
-                    result = "Dest.";
-                    grade = "A";
+                if (mark >= pm && mark < fm &&  mark >= 90) {
+                    result = "BoardFirst.";
+                    grade = "A+";
 
-                }else if(mark > pm && per > 60f ){
+                }else if(mark >= pm && mark < 90 && mark >= 80 ){
+                    result = "Dist. Div";
+                    grade = "A";
+                }else if(mark >= pm && mark < 80 && mark >= 60 ){
                     result = "1st Div";
                     grade = "B+";
-                }if (mark >= pm && per >= 50f) {
+                }else if (mark >= pm && mark < 60 && mark >= 50) {
                     result = "2nd Div";
                     grade = "B";
 
-                }else if(mark > pm && per >= 40f ){
+                }else if(mark >= pm && mark < 50 && mark >= 40 ){
                     result = "3rd Div";
                     grade = "C";
                 
@@ -154,6 +157,8 @@ public class Mark extends JFrame {
                     grade = "F";
                     flag = 1;
                     
+                }else{
+                    result = "incorrect";
                 }
                 model.addRow(new Object[]{
                     rs.getString(1),
